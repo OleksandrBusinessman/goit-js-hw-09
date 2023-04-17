@@ -9,11 +9,13 @@ stopButton.addEventListener('click', onStopButtonClick);
 
 function onStartButtonClick() {
   startButton.disabled = true;
+  stopButton.disabled = false;
   timerId = setInterval(changeBodyColor, 1000);
 }
 
 function onStopButtonClick() {
   startButton.disabled = false;
+  stopButton.disabled = true;
   clearInterval(timerId);
 }
 

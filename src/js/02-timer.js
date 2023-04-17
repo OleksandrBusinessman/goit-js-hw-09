@@ -9,6 +9,7 @@ const minutesEl = document.querySelector('[data-minutes]');
 const secondsEl = document.querySelector('[data-seconds]');
 
 let timeInFuture = 0;
+let diferentInTime = 0;
 
 startButton.addEventListener('click', onStartButtonClick);
 
@@ -38,20 +39,25 @@ const options = {
 flatpickr('#datetime-picker', options);
 
 function onStartButtonClick() {
+  startButton.disabled = true;
   const timerId = setInterval(() => {
     const date = new Date();
     const currentTime = date.getTime();
-    const diferentInTime = timeInFuture - currentTime;
+    diferentInTime = timeInFuture - currentTime;
 
     if (diferentInTime < 1000) {
       clearInterval(timerId);
+      startButton.disabled = false;
     }
-
-    daysEl.textContent = addLeadingZero(convertMs(diferentInTime).days);
-    hoursEl.textContent = addLeadingZero(convertMs(diferentInTime).hours);
-    minutesEl.textContent = addLeadingZero(convertMs(diferentInTime).minutes);
-    secondsEl.textContent = addLeadingZero(convertMs(diferentInTime).seconds);
+    fillTimeFilds();
   }, 1000);
+}
+
+function fillTimeFilds() {
+  daysEl.textContent = addLeadingZero(convertMs(diferentInTime).days);
+  hoursEl.textContent = addLeadingZero(convertMs(diferentInTime).hours);
+  minutesEl.textContent = addLeadingZero(convertMs(diferentInTime).minutes);
+  secondsEl.textContent = addLeadingZero(convertMs(diferentInTime).seconds);
 }
 
 function convertMs(ms) {

@@ -10,13 +10,7 @@ function onFormSabmit(e) {
   let delayValue = Number(delay.value);
 
   for (let i = 1; i <= Number(amount.value); i += 1) {
-    createPromise(i, delayValue)
-      .then(({ position, delay }) => {
-        Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
-      })
-      .catch(({ position, delay }) => {
-        Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
-      });
+    createPromise(i, delayValue).then(successNotify).catch(failureNotify);
     delayValue += Number(step.value);
   }
   form.reset();
@@ -33,4 +27,12 @@ function createPromise(position, delay) {
       }
     }, delay);
   });
+}
+
+function successNotify({ position, delay }) {
+  Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+}
+
+function failureNotify({ position, delay }) {
+  Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
 }
